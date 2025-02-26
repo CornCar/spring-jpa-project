@@ -1,0 +1,66 @@
+package com.cornCar.jpaShop.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.cornCar.jpaShop.domain.member.Role;
+import lombok.Getter;
+import lombok.Setter;
+
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Entity
+@Getter @Setter
+public class Member implements UserDetails {
+
+    @Id
+    @Column(name = "member_id")
+    private String id;
+    private String password;
+    private String name;
+    private String email;
+    private int orderCount = 0;  // 주문 횟수 저장
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @Embedded
+    private Address address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+    @Override
+    public String getUsername() {
+        return this.id;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+}
