@@ -2,7 +2,6 @@ package com.cornCar.jpaShop;
 
 import com.cornCar.jpaShop.domain.*;
 import com.cornCar.jpaShop.domain.item.Book;
-import com.cornCar.jpaShop.domain.member.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

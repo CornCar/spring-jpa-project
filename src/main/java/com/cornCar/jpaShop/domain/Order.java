@@ -1,5 +1,7 @@
 package com.cornCar.jpaShop.domain;
 
+import com.cornCar.jpaShop.annotation.MainDiscountPolicy;
+import com.cornCar.jpaShop.discount.DiscountPolicy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,6 +30,10 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private int itemPrice;
+
+    private int discoutPrice;
+
     @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -39,6 +45,7 @@ public class Order {
 
     private LocalDateTime orderDate; //주문시간
 
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status; //주문상태 [ORDER, CANCEL]
 
@@ -49,6 +56,7 @@ public class Order {
     }
 
     public void addOrderItem(OrderItem orderItem) {
+
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
@@ -59,7 +67,8 @@ public class Order {
     }
 
     //==생성 메서드==//
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+    public static Order createOrder(Member member, Delivery delivery,@MainDiscountPolicy DiscountPolicy discountPolicy,
+                                    OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);

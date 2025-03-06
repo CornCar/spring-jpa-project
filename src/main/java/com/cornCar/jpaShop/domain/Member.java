@@ -1,7 +1,7 @@
 package com.cornCar.jpaShop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.cornCar.jpaShop.domain.member.Role;
+import com.cornCar.jpaShop.domain.member.Grade;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,7 @@ public class Member implements UserDetails {
     private String email;
     private int orderCount = 0;  // 주문 횟수 저장
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Grade grade;
     @Embedded
     private Address address;
 
@@ -40,7 +40,7 @@ public class Member implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(grade.name()));
     }
 
     @Override

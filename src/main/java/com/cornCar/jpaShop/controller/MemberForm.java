@@ -1,8 +1,5 @@
 package com.cornCar.jpaShop.controller;
 
-import jakarta.persistence.*;
-
-import com.cornCar.jpaShop.domain.member.Role;
 import lombok.Getter;
 import lombok.Setter;
 

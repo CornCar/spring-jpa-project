@@ -1,7 +1,6 @@
 package com.cornCar.jpaShop.service;
-import jakarta.transaction.Transactional;
 import com.cornCar.jpaShop.domain.Member;
-import com.cornCar.jpaShop.domain.member.Role;
+import com.cornCar.jpaShop.domain.member.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
         if(member.getOrderCount() >=5) {
-            member.setRole(Role.VIP);
+            member.setGrade(Grade.VIP);
         }
         return User.builder()
                 .username(member.getId())

@@ -1,9 +1,8 @@
 package com.cornCar.jpaShop.controller;
 
-import com.cornCar.jpaShop.controller.MemberForm;
 import com.cornCar.jpaShop.domain.Address;
 import com.cornCar.jpaShop.domain.Member;
-import com.cornCar.jpaShop.domain.member.Role;
+import com.cornCar.jpaShop.domain.member.Grade;
 import com.cornCar.jpaShop.service.MemberService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class MemberController {
         member.setName(form.getName());
         member.setEmail(form.getEmail());
         member.setAddress(address);
-        member.setRole(Role.BASIC);
+        member.setGrade(Grade.BASIC);
         memberService.join(member);
         return "redirect:/login";
     }

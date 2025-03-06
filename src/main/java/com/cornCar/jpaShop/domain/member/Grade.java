@@ -1,6 +1,6 @@
 package com.cornCar.jpaShop.domain.member;
 
-public enum Role {
+public enum Grade {
     ADMIN,
     VIP,
     BASIC
