@@ -10,6 +10,8 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,13 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
+    //== DiscountPolicy 주입 (자동 주입) ==//
+    private static DiscountPolicy discountPolicy;
 
+    @Autowired
+    public void setDiscountPolicy(@MainDiscountPolicy DiscountPolicy discountPolicy) {
+        Order.discountPolicy = discountPolicy;
+    }
     @Id @GeneratedValue
     @Column(name = "order_id")
     private Long id;
@@ -29,10 +37,6 @@ public class Order {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    private int itemPrice;
-
-    private int discoutPrice;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -67,14 +71,15 @@ public class Order {
     }
 
     //==생성 메서드==//
-    public static Order createOrder(Member member, Delivery delivery,@MainDiscountPolicy DiscountPolicy discountPolicy,
-                                    OrderItem... orderItems) {
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
+        int totalPrice = order.getTotalPrice();
+        int discountPrice = discountPolicy.discount(member,totalPrice);
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
         return order;

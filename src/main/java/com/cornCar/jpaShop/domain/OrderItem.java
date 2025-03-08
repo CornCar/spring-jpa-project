@@ -1,5 +1,6 @@
 package com.cornCar.jpaShop.domain;
 
+import com.cornCar.jpaShop.discount.DiscountPolicy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.cornCar.jpaShop.domain.item.Item;
 import lombok.AccessLevel;
@@ -16,6 +17,7 @@ import static jakarta.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
+
     @Id @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
@@ -30,6 +32,7 @@ public class OrderItem {
     private Order order;
 
     private int orderPrice; //주문 가격
+
     private int count; //주문 수량
 
     //==생성 메서드==//
