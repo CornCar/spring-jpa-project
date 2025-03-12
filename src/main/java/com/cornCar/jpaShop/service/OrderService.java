@@ -20,6 +20,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+    public int findDiscountPolicy{ return orderRepository.getDiscountPolicy(); }
 
     /**
      * 주문

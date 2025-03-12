@@ -1,7 +1,11 @@
 package com.cornCar.jpaShop.repository;
 
+import com.cornCar.jpaShop.annotation.MainDiscountPolicy;
+import com.cornCar.jpaShop.discount.DiscountPolicy;
 import com.cornCar.jpaShop.domain.Order;
 
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -12,9 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Getter
 public class OrderRepository {
 
     private final EntityManager em;
+    private DiscountPolicy discountPolicy;
+
+    @Autowired
+    public void setDiscountPolicy(@MainDiscountPolicy DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
 
     public OrderRepository(EntityManager em) {
         this.em = em;
@@ -27,6 +38,7 @@ public class OrderRepository {
     public Order findOne(Long id) {
         return em.find(Order.class, id);
     }
+
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
 

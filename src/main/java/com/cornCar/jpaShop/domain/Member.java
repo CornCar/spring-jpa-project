@@ -25,7 +25,7 @@ public class Member implements UserDetails {
     private String password;
     private String name;
     private String email;
-    private int orderCount = 0;  // 주문 횟수 저장
+
     @Enumerated(EnumType.STRING)
     private Grade grade;
     @Embedded
@@ -42,7 +42,11 @@ public class Member implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(grade.name()));
     }
-
+    private int orderCount = 0;  // 주문 횟수 저장
+    private int balance = 0;
+    public void updatedBalance(int price) {
+        balance = balance + orderCount;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

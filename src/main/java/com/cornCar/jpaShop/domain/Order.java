@@ -2,6 +2,7 @@ package com.cornCar.jpaShop.domain;
 
 import com.cornCar.jpaShop.annotation.MainDiscountPolicy;
 import com.cornCar.jpaShop.discount.DiscountPolicy;
+import com.cornCar.jpaShop.service.OrderService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,13 +24,9 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
-    //== DiscountPolicy 주입 (자동 주입) ==//
-    private static DiscountPolicy discountPolicy;
+    private static OrderService orderService;
 
-    @Autowired
-    public void setDiscountPolicy(@MainDiscountPolicy DiscountPolicy discountPolicy) {
-        Order.discountPolicy = discountPolicy;
-    }
+
     @Id @GeneratedValue
     @Column(name = "order_id")
     private Long id;
@@ -79,8 +76,9 @@ public class Order {
             order.addOrderItem(orderItem);
         }
         int totalPrice = order.getTotalPrice();
-        int discountPrice = discountPolicy.discount(member,totalPrice);
+        int discountPrice = orderService.findDiscountPolicy;
         order.setStatus(OrderStatus.ORDER);
+        member.updatedBalance(-(totalPrice-discountPrice));
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
