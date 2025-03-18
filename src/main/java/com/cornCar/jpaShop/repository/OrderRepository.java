@@ -2,6 +2,7 @@ package com.cornCar.jpaShop.repository;
 
 import com.cornCar.jpaShop.annotation.MainDiscountPolicy;
 import com.cornCar.jpaShop.discount.DiscountPolicy;
+import com.cornCar.jpaShop.domain.Member;
 import com.cornCar.jpaShop.domain.Order;
 
 import lombok.Getter;
@@ -20,14 +21,11 @@ import java.util.List;
 public class OrderRepository {
 
     private final EntityManager em;
-    private DiscountPolicy discountPolicy;
+    private final DiscountPolicy discountPolicy;
 
-    @Autowired
-    public void setDiscountPolicy(@MainDiscountPolicy DiscountPolicy discountPolicy) {
+
+    public OrderRepository(EntityManager em,@MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
-    }
-
-    public OrderRepository(EntityManager em) {
         this.em = em;
     }
 
@@ -39,6 +37,7 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
+    public int discount(Member member, int price) { return discountPolicy.discount(member, price); }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
 

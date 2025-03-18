@@ -76,9 +76,9 @@ public class Order {
             order.addOrderItem(orderItem);
         }
         int totalPrice = order.getTotalPrice();
-        int discountPrice = orderService.findDiscountPolicy;
+        int discountPrice = orderService.getDiscount(member, totalPrice);
         order.setStatus(OrderStatus.ORDER);
-        member.updatedBalance(-(totalPrice-discountPrice));
+        member.updatedBalance(totalPrice-discountPrice);
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
