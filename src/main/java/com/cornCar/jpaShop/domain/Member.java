@@ -45,7 +45,9 @@ public class Member implements UserDetails {
     private int orderCount = 0;  // 주문 횟수 저장
     private int balance = 0;
     public void updatedBalance(int price) {
-        balance -= price;
+        if(balance < price) {
+            balance -= price;
+        }
     }
     @Override
     public boolean isAccountNonExpired() {

@@ -2,6 +2,8 @@ package com.cornCar.jpaShop;
 
 import com.cornCar.jpaShop.domain.*;
 import com.cornCar.jpaShop.domain.item.Book;
+import com.cornCar.jpaShop.repository.OrderRepository;
+import com.cornCar.jpaShop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -38,10 +40,10 @@ public class InitDb {
 
         private final EntityManager em;
         private final PasswordEncoder passwordEncoder; // PasswordEncoder 주입
-
+        private final OrderService orderService;
         public void dbInit1() {
             System.out.println("Init1" + this.getClass());
-            Member member = createMember("member2", "password2", "회원2", "member2@example.com", "부산", "해운대", "789-012");
+            Member member = createMember("member2", "password2",10000, "회원2", "member2@example.com", "부산", "해운대", "789-012");
             em.persist(member);
 
             Book book1 = createBook("JPA1 BOOK", 10000, 100);
@@ -54,12 +56,12 @@ public class InitDb {
             OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
 
             Delivery delivery = createDelivery(member);
-            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Order order = orderService.createOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
         }
 
         public void dbInit2() {
-            Member member = createMember("member1", "password1", "회원1", "member1@example.com", "서울", "강남", "123-456");
+            Member member = createMember("member1", "password1",5000, "회원1", "member1@example.com", "서울", "강남", "123-456");
             em.persist(member);
 
             Book book1 = createBook("SPRING1 BOOK", 20000, 200);
@@ -72,17 +74,17 @@ public class InitDb {
             OrderItem orderItem2 = OrderItem.createOrderItem(book2, 40000, 4);
 
             Delivery delivery = createDelivery(member);
-            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Order order = orderService.createOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
         }
 
-        private Member createMember(String id, String password, String name, String email,  String city, String street, String zipcode) {
+        private Member createMember(String id, String password, int balance,String name, String email,  String city, String street, String zipcode) {
             Member member = new Member();
             member.setId(id);
             member.setPassword(passwordEncoder.encode(password)); // 비밀번호 암호화
             member.setName(name);
             member.setEmail(email);
-
+            member.setBalance(balance);
             member.setAddress(new Address(city, street, zipcode));
             return member;
         }

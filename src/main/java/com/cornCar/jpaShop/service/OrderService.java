@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,12 +42,28 @@ public class OrderService {
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = createOrder(member, delivery, orderItem);
 
         //주문 저장
         orderRepository.save(order);
 
         return order.getId();
+    }
+    //==생성 메서드==//
+    public Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        int totalPrice = order.getTotalPrice();
+        int discountPrice = getDiscount(member, totalPrice);
+        order.setStatus(OrderStatus.ORDER);
+        member.updatedBalance(totalPrice-discountPrice);
+        member.setOrderCount(member.getOrderCount()+1);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
     }
 
     /**
