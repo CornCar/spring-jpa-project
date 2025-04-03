@@ -44,7 +44,8 @@ public class MemberService {
 
     public List<Member> findById(String id) {return  memberRepository.findById(id);}
 
-    public void updateBalance(Member member) {
+    public void updateBalance(Member member,int balance) {
+        member.setBalance(balance);
         memberRepository.save(member);
     }
 }

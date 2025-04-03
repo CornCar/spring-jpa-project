@@ -9,18 +9,13 @@
 
 <div class="container">
 
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
-    <form action="/updateBalance" method="post">
-        <button type="submit" name="action" value="decrease" class="btn btn-sm btn-danger">-</button>
-        <span th:text="${member.balance}" class="mx-3">100</span> <!-- balance 값 출력 -->
-        <button type="submit" name="action" value="increase" class="btn btn-sm btn-success">+</button>
-    </form>
+
     <div class="jumbotron">
         <h1>HELLO SHOP</h1>
         <p class="lead">회원 기능</p>
         <p>
             <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
+            <a class="btn btn-lg btn-secondary" href="/updateBalance">balance Setting</a>
         </p>
         <p class="lead">상품 기능</p>
         <p>

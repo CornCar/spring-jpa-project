@@ -4,6 +4,8 @@ import com.cornCar.jpaShop.domain.Address;
 import com.cornCar.jpaShop.domain.Member;
 import com.cornCar.jpaShop.domain.member.Grade;
 import com.cornCar.jpaShop.service.MemberService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,21 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     @PostMapping("/updateBalance")
+    public String updateBalance(@RequestParam("balance") int balance,
+                                @AuthenticationPrincipal UserDetails userDetails) {
+        // 현재 로그인된 사용자 가져오기
+        Member member = memberService.findByUsername(userDetails.getUsername());
+
+
+        if (member != null) {
+            member.setBalance(balance); // balance 업데이트
+            memberRepository.save(member); // DB 저장
+        }
+
+        return "redirect:/updateBalance"; // 업데이트 후 리디렉트
+    }
+
+    @PostMapping("/updateBalance")
     public String updateBalance(@RequestParam String action, @ModelAttribute("member") Member member) {
         if ("increase".equals(action)) {
             member.setBalance(member.getBalance() + 1);  // 잔액 증가
@@ -32,7 +49,7 @@ public class MemberController {
             member.setBalance(member.getBalance() - 1);  // 잔액 감소
         }
 
-        memberService.updateBalance(member);  // DB에 잔액 업데이트
+
 
         return "redirect:/memberPage";
     }
@@ -64,10 +81,10 @@ public class MemberController {
         return "redirect:/login";
     }
 
-    @GetMapping("/members")
+    @GetMapping("/updateBalance")
     public String list(Model model) {
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
-        return "members/memberList";
+        return "members/setting";
     }
 }
