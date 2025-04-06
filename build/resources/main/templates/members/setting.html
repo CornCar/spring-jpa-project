@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <h2>잔액 업데이트</h2>
+
+    <form action="/updateBalance" method="post">
+        <button type="button" onclick="updateBalance(-100)" class="btn btn-sm btn-danger">-</button>
+        <span id="balanceDisplay" class="mx-3" th:text="${member.balance}">100</span>
+        <button type="button" onclick="updateBalance(100)" class="btn btn-sm btn-success">+</button>
+
+        <input type="hidden" id="balanceInput" name="balance" th:value="${member.balance}" />
+        <button type="submit" class="btn btn-primary mt-2">적용</button>
+    </form>
+
+
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+
+<script>
+    function updateBalance(amount) {
+        let balanceDisplay = document.getElementById("balanceDisplay");
+        let balanceInput = document.getElementById("balanceInput");
+
+        let currentBalance = parseInt(balanceInput.value);
+        let newBalance = currentBalance + amount;
+
+        balanceDisplay.textContent = newBalance;
+        balanceInput.value = newBalance;
+    }
+</script>
+
+</body>
+</html>
+

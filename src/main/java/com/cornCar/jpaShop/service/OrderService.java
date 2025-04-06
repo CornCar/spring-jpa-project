@@ -30,8 +30,8 @@ public class OrderService {
     public Long order(String memberId, Long itemId, int count) {
 
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
-        Item item = itemRepository.findOne(itemId);
+        Member member = memberRepository.findByUsername(memberId);
+        Item item = itemRepository.findByUsername(itemId);
 
         //배송정보 생성
         Delivery delivery = new Delivery();
@@ -72,7 +72,7 @@ public class OrderService {
     @Transactional
     public void cancelOrder(Long orderId) {
         //주문 엔티티 조회
-        Order order = orderRepository.findOne(orderId);
+        Order order = orderRepository.findByUsername(orderId);
         //주문 취소
         order.cancel();
     }

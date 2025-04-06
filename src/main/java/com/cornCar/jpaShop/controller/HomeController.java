@@ -24,7 +24,7 @@ public class HomeController {
         // 현재 로그인한 사용자 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getName() != null) {
-            Member member = memberService.findOne(authentication.getName()); // 사용자 정보 조회
+            Member member = memberService.findByUsername(authentication.getName()); // 사용자 정보 조회
             model.addAttribute("member", member); // 모델에 추가
         }
 

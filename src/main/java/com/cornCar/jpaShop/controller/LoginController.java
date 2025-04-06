@@ -31,7 +31,7 @@ public class LoginController {
     public Member getLoggedInMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getName() != null) {
-            return memberService.findOne(authentication.getName()); // ID 기반으로 DB에서 조회
+            return memberService.findByUsername(authentication.getName()); // ID 기반으로 DB에서 조회
         }
         return null;
     }

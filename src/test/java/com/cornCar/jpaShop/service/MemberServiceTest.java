@@ -32,7 +32,7 @@ public class MemberServiceTest {
         String savedId = memberService.join(member);
 
         //then
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertEquals(member, memberRepository.findByUsername(savedId));
     }
 
     @Test(expected = IllegalStateException.class)

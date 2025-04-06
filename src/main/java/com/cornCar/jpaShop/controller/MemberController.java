@@ -31,16 +31,10 @@ public class MemberController {
                                 @AuthenticationPrincipal UserDetails userDetails) {
         // 현재 로그인된 사용자 가져오기
         Member member = memberService.findByUsername(userDetails.getUsername());
-
-
-        if (member != null) {
-            member.setBalance(balance); // balance 업데이트
-            memberRepository.save(member); // DB 저장
-        }
-
+        memberService.updateBalance(member, balance);
         return "redirect:/updateBalance"; // 업데이트 후 리디렉트
     }
-
+/*
     @PostMapping("/updateBalance")
     public String updateBalance(@RequestParam String action, @ModelAttribute("member") Member member) {
         if ("increase".equals(action)) {
@@ -52,7 +46,7 @@ public class MemberController {
 
 
         return "redirect:/memberPage";
-    }
+    }*/
     @GetMapping("/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());

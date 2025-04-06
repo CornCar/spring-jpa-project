@@ -17,7 +17,7 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findOne(String  id) {
+    public Member findByUsername(String  id) {
         return em.find(Member.class, id);
     }
 

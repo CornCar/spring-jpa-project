@@ -38,14 +38,16 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(String memberId) {
-        return memberRepository.findOne(memberId);
+    public Member findByUsername(String memberId) {
+        return memberRepository.findByUsername(memberId);
     }
 
     public List<Member> findById(String id) {return  memberRepository.findById(id);}
 
     public void updateBalance(Member member,int balance) {
-        member.setBalance(balance);
-        memberRepository.save(member);
+        if (member != null) {
+            member.setBalance(balance); // balance 업데이트
+            memberRepository.save(member); // DB 저장
+        }
     }
 }
