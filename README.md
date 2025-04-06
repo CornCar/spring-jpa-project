@@ -1,11 +1,10 @@
 # Spring JPA Project – 로그인, 상품 주문 및 등록 웹 애플리케이션
 spring+jpa project to order and sell various items
 
-![bookUpdate.PNG](../../../Desktop/3rdStudy/OssDev/%EA%B3%BC%EC%A0%9C/bookUpdate.PNG)
-![login.PNG](../../../Desktop/3rdStudy/OssDev/%EA%B3%BC%EC%A0%9C/login.PNG)
-![order.PNG](../../../Desktop/3rdStudy/OssDev/%EA%B3%BC%EC%A0%9C/order.PNG)
-![bookList.PNG](../../../Desktop/3rdStudy/OssDev/%EA%B3%BC%EC%A0%9C/bookList.PNG)
-
+![bookUpdate](src/main/resources/templates/pictures/bookUpdate.PNG)
+![login](src/main/resources/templates/pictures/login.PNG)
+![order](src/main/resources/templates/pictures/order.PNG)
+![bookList](src/main/resources/templates/pictures/bookList.PNG)
 
 
 ## 1. 프로젝트 개요
